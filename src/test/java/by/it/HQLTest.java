@@ -116,7 +116,7 @@ public class HQLTest {
     public void groupByTest() {
         Session session = EMUtil.getSession();
         Query query = session.createQuery("select count(e.name), e.name from Employee e group by e.name");
-        query.getResultList().forEach(employees -> {
+        query.list().forEach(employees -> {
             Object[] employee = (Object[]) employees;
             System.out.println("Имя: " + employee[1] + " количество:" + employee[0]);
         });
@@ -164,7 +164,9 @@ public class HQLTest {
     @Test
     public void like() {
         Session session = EMUtil.getSession();
-        Query query = session.createQuery("from Employee e where e.name like 'Yuli' order by e.name");
+        String pattern = "Yul";
+        Query query = session.createQuery("from Employee e where e.name like :name order by e.name");
+        query.setParameter("name", pattern +"%");
         System.out.println(query.list());
     }
 
@@ -173,8 +175,8 @@ public class HQLTest {
         Session session = EMUtil.getSession();
         session.beginTransaction();
         session.createQuery("update Employee e set e.age = :age where name = :name")
-                .setParameter("age", 21)
                 .setParameter("name", "Yulij")
+                .setParameter("age", 21)
                 .executeUpdate();
         session.getTransaction().commit();
     }
@@ -204,7 +206,7 @@ public class HQLTest {
         List<Author> authors = em.createQuery(
                 "select distinct a " +
                         "from Author a " +
-                        "left join a.books b " +
+                        "left outer join a.books b " +
                         "where b.title = 'War & Piece'", Author.class)
                 .getResultList();
 //        System.out.println("tututu");
@@ -263,7 +265,7 @@ public class HQLTest {
     @Test
     public void beanName() {
         Session session = EMUtil.getSession();
-        final List result = session.createSQLQuery("select e.name as firstName, e.salary as money from Employee e")
+        final List<Emp> result = session.createSQLQuery("select e.name as firstName, e.salary as money from Employee e")
                 .addScalar("firstName", StandardBasicTypes.STRING)
                 .addScalar("money", StandardBasicTypes.INTEGER)
                 .setResultTransformer(Transformers.aliasToBean(Emp.class)) // deprecated Jun 02, 2016
