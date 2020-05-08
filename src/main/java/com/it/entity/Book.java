@@ -1,10 +1,6 @@
-package by.it.entity;
+package com.it.entity;
 
 import javax.persistence.*;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 public class Book {

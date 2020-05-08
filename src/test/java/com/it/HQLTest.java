@@ -1,4 +1,4 @@
-package by.it;
+package com.it;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.it.entity.Employee;
+import com.it.util.EMUtil;
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -16,10 +18,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import by.it.entity.Author;
-import by.it.entity.Book;
-import by.it.entity.Employee;
-import by.it.util.EMUtil;
+import com.it.entity.Author;
+import com.it.entity.Book;
 
 public class HQLTest {
     @Before
@@ -227,15 +227,15 @@ public class HQLTest {
 
     @Test
     public void paginationTest() {
-        final List<Employee> page0 = getPage(0);
+        final List<Employee> page0 = getPage(1);
         System.out.println("page 0");
         System.out.println(page0);
 
-        final List<Employee> page1 = getPage(1);
+        final List<Employee> page1 = getPage(2);
         System.out.println("page 1");
         System.out.println(page1);
 
-        final List<Employee> page2 = getPage(2);
+        final List<Employee> page2 = getPage(3);
         System.out.println("page 2");
         System.out.println(page2);
     }
@@ -245,7 +245,7 @@ public class HQLTest {
         Session session = EMUtil.getSession();
         Query query = session.createQuery("from Employee e");
         return query.setMaxResults(pageSize)
-                .setFirstResult(page * pageSize)
+                .setFirstResult((page - 1) * pageSize)
                 .getResultList();
     }
 
@@ -260,6 +260,13 @@ public class HQLTest {
                     ", money=" + money +
                     '}';
         }
+    }
+
+    @Test
+    public void testNew() {
+        Session session = EMUtil.getSession();
+        Query query = session.createQuery("select new com.it.MaxWrapper(e.salary) from Employee e");
+        System.out.println(query.list());
     }
 
     @Test

@@ -4,17 +4,17 @@
              version="2.0">
     <persistence-unit name="by.it" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>by.it.entity.Author</class>
-        <class>by.it.entity.Book</class>
-        <class>by.it.entity.Employee</class>
+        <class>com.it.entity.Author</class>
+        <class>com.it.entity.Book</class>
+        <class>com.it.entity.Employee</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:jpadb"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ita?createDatabaseIfNotExist=true&amp;logger=com.mysql.cj.log.StandardLogger"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="javax.persistence.jdbc.password" value="rootroot"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.connection.pool_size" value="10"/>
         </properties>
     </persistence-unit>

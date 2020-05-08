@@ -1,4 +1,4 @@
-package by.it.util;
+package com.it.util;
 
 import org.hibernate.Session;
 
